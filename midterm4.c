@@ -70,7 +70,7 @@ void train(int start[], int sizeStart, int stack[], int sizeStack, int n,int ord
 
 int main()
 {
-    int amount = 4;
+    int amount = 5;
     int array[amount];
     int stack[amount];
     int all[factorial(amount)];
@@ -82,13 +82,16 @@ int main()
         all[i] = 0;
     }
     train(array,amount,stack,0,amount,0,all);
+    int count = 0;
     for(int i=0;i<factorial(amount);i++){
         if(all[i]!=0){
             printf("%d ",all[i]);
+            count++;
         }else{
             printf("\n");
             break;
         }
     }
+    printf("There are %d possible cases in %d trains.\n",count,amount);
     return 0;
 }
