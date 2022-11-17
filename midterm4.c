@@ -70,7 +70,7 @@ void train(int start[], int sizeStart, int stack[], int sizeStack, int n,int ord
 
 int main()
 {
-    int amount = 5;
+    int amount = 4;
     int array[amount];
     int stack[amount];
     int all[factorial(amount)];
