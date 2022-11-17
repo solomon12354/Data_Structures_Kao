@@ -93,5 +93,6 @@ int main()
         }
     }
     printf("There are %d possible cases in %d trains.\n",count,amount);
+    system("pause");
     return 0;
 }
