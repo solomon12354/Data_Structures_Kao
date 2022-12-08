@@ -73,8 +73,8 @@ node deletePtr(node root, int value){
     while(1){
         if(tempPtr->value == value){
             node deleteIt = tempPtr;
-            printf("temp = %d\n",tempPtr->value);
-            printf("prev = %d\n",prev->value);
+            //printf("temp = %d\n",tempPtr->value);
+            //printf("prev = %d\n",prev->value);
             if(deleteIt->left == NULL){
                 if(i == 0){
                     root = root->right;
@@ -97,7 +97,7 @@ node deletePtr(node root, int value){
                     run = run->right;
                     j++;
                 }
-                printf("run = %d, previous = %d\n",run->value,previous->value);
+                //printf("run = %d, previous = %d\n",run->value,previous->value);
                 //previous->right = NULL;
                 tempPtr->value = run->value;
                 run = deletePtr(run,run->value);
