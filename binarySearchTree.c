@@ -18,6 +18,26 @@ void inorder(node root){
     }
 }
 
+void preorder(node root){
+    if(root == NULL){
+        return;
+    }else{
+        printf("%d ",root->value);
+        inorder(root->left);
+        inorder(root->right);
+    }
+}
+
+void postorder(node root){
+    if(root == NULL){
+        return;
+    }else{
+        inorder(root->left);
+        inorder(root->right);
+        printf("%d ",root->value);
+    }
+}
+
 node insert(node root, int value){
     node tempPtr = root;
     if(root == NULL){
@@ -195,7 +215,15 @@ int main()
                 printf(" recu = %d\n",recu->value);
             }
         }
+        printf("inorder:");
         inorder(rootPtr);
+        printf("\n");
+        printf("preorder:");
+        preorder(rootPtr);
+        printf("\n");
+        printf("postorder:");
+        postorder(rootPtr);
+        printf("\n");
         printf("\n");
 
     }
