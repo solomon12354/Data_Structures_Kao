@@ -81,8 +81,10 @@ node insert(node root, int value){
     return root;
 
 }
-
+//1 30 1 40 1 50 1 20 1 10 2 30
+/*
 node deletePtr(node root, int value){
+
     node tempPtr = root;
     node prev = root;
 
@@ -96,17 +98,34 @@ node deletePtr(node root, int value){
             //printf("temp = %d\n",tempPtr->value);
             //printf("prev = %d\n",prev->value);
             if(deleteIt->left == NULL){
-                if(i == 0){
-                    root = root->right;
+                node run = deleteIt->right;
+                node previous = deleteIt->right;
+                int j = 0;
+                while(run->left != NULL){
+                    if(j != 0){
+                        previous = previous->left;
+                    }
+                    run = run->left;
+                    j++;
                 }
-                if(prev->value > deleteIt->value){
-                    prev->left = deleteIt->right;
-                }else if(prev->value <= deleteIt->value){
-                    prev->right = deleteIt->right;
+                printf("run = %d, previous = %d, j = %d\n",run->value,previous->value,j);
+                previous->right = NULL;
+                tempPtr->value = run->value;
+                if(run->left == NULL && run->right == NULL && j == 0){
+                    deleteIt->right = NULL;
+                }else{
+                    run = deletePtr(run,run->value);
+
                 }
 
+                if(run != NULL && j == 1){
+                    run->right = NULL;
+                }else if(run == NULL || (run->left == NULL && run->right == NULL)){
+                    previous->left = NULL;
+                }
+                //free(run);
                 return root;
-            }else{
+            }else if(deleteIt->left != NULL){
                 node run = deleteIt->left;
                 node previous = deleteIt->left;
                 int j = 0;
@@ -117,10 +136,15 @@ node deletePtr(node root, int value){
                     run = run->right;
                     j++;
                 }
-                //printf("run = %d, previous = %d\n",run->value,previous->value);
-                //previous->right = NULL;
+                printf("run = %d, previous = %d, j = %d\n",run->value,previous->value,j);
+                previous->right = NULL;
                 tempPtr->value = run->value;
-                run = deletePtr(run,run->value);
+                if(run->left == NULL && run->right == NULL && j == 0){
+                    deleteIt->left = NULL;
+                }else{
+                    run = deletePtr(run,run->value);
+
+                }
 
                 if(run != NULL && j == 1){
                     run->left = NULL;
@@ -129,6 +153,8 @@ node deletePtr(node root, int value){
                 }
                 //free(run);
                 return root;
+            }else if(deleteIt->left == NULL && root->right == NULL){
+                return NULL;
             }
             return root;
         }else{
@@ -147,6 +173,73 @@ node deletePtr(node root, int value){
 
         }
         i++;
+    }
+
+    return root;
+
+}
+*/
+
+node minValueNode(node Node)
+{
+    node current = Node;
+
+    /* loop down to find the leftmost leaf */
+    while (current && current->left != NULL)
+        current = current->left;
+
+    return current;
+}
+
+/* Given a binary search tree
+   and a key, this function
+   deletes the key and
+   returns the new root */
+node deleteNode(node root, int key)
+{
+    // base case
+    if (root == NULL)
+        return root;
+
+    // If the key to be deleted
+    // is smaller than the root's
+    // key, then it lies in left subtree
+    if (key < root->value)
+        root->left = deleteNode(root->left, key);
+
+    // If the key to be deleted
+    // is greater than the root's
+    // key, then it lies in right subtree
+    else if (key > root->value)
+        root->right = deleteNode(root->right, key);
+
+    // if key is same as root's key,
+    // then This is the node
+    // to be deleted
+    else {
+        // node with only one child or no child
+        if (root->left == NULL) {
+            node temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+            node temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        // node with two children:
+        // Get the inorder successor
+        // (smallest in the right subtree)
+        node temp = minValueNode(root->right);
+
+        // Copy the inorder
+        // successor's content to this node
+        root->value = temp->value;
+
+        // Delete the inorder successor
+        root->right = deleteNode(root->right, temp->value);
     }
     return root;
 }
@@ -202,7 +295,7 @@ int main()
         }else if(n == 2){
             printf("What value?");
             scanf("%d",&value);
-            rootPtr = deletePtr(rootPtr,value);
+            rootPtr = deleteNode(rootPtr,value);
         }else if(n == 3){
             printf("What value?");
             scanf("%d",&value);
