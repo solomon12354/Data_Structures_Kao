@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct Node{
+struct Node {
     int value;
     struct Node* left;
     struct Node* right;
@@ -8,45 +8,51 @@ struct Node{
 //1 30 1 40 1 50 1 20 1 25 1 10 1 5 1 8 1 7
 typedef struct Node* node;
 
-void inorder(node root){
-    if(root == NULL){
+void inorder(node root) {
+    if (root == NULL) {
         return;
-    }else{
+    }
+    else {
         inorder(root->left);
-        printf("%d ",root->value);
+        printf("%d ", root->value);
         inorder(root->right);
     }
 }
 
-void preorder(node root){
-    if(root == NULL){
+void preorder(node root) {
+    if (root == NULL) {
         return;
-    }else{
-        printf("%d ",root->value);
+    }
+    else {
+        printf("%d ", root->value);
         inorder(root->left);
         inorder(root->right);
     }
 }
 
-void postorder(node root){
-    if(root == NULL){
+void postorder(node root) {
+    if (root == NULL) {
         return;
-    }else{
+    }
+    else {
         inorder(root->left);
         inorder(root->right);
-        printf("%d ",root->value);
+        printf("%d ", root->value);
     }
 }
 
-node insert(node root, int value){
+node insert(node root, int value) {
     node tempPtr = root;
-    if(root == NULL){
-        root = malloc(sizeof(node));
-        root->left = NULL;
-        root->right = NULL;
-        root->value = value;
-        return root;
-    }else{
+    node nodePtr = malloc(sizeof(struct Node));
+    nodePtr->left = NULL;
+    nodePtr->right = NULL;
+    nodePtr->value = value;
+
+    if (root == NULL) {
+        
+        return nodePtr;
+    }
+    else {
         /*
         while(tempPtr->left != NULL && tempPtr->right != NULL){
             if(tempPtr->value > value){
@@ -55,24 +61,25 @@ node insert(node root, int value){
                 tempPtr = tempPtr->right;
             }
         }*/
-        while(1){
-            if(tempPtr->left == NULL && tempPtr->value > value){
-                node nodePtr = malloc(sizeof(node));
-                nodePtr->left = NULL;
-                nodePtr->right = NULL;
-                nodePtr->value = value;
+        
+
+        while (1) {
+            if (tempPtr->left == NULL && tempPtr->value > value) {
+                
+                
                 tempPtr->left = nodePtr;
                 return root;
-            }else if(tempPtr->right == NULL && tempPtr->value <= value){
-                node nodePtr = malloc(sizeof(node));
-                nodePtr->left = NULL;
-                nodePtr->right = NULL;
-                nodePtr->value = value;
+            }
+            else if (tempPtr->right == NULL && tempPtr->value <= value) {
+                
+                
                 tempPtr->right = nodePtr;
                 return root;
-            }else if(tempPtr->value > value){
+            }
+            else if (tempPtr->value > value) {
                 tempPtr = tempPtr->left;
-            }else if(tempPtr->value <= value){
+            }
+            else if (tempPtr->value <= value) {
                 tempPtr = tempPtr->right;
             }
         }
@@ -82,111 +89,15 @@ node insert(node root, int value){
 
 }
 //1 30 1 40 1 50 1 20 1 10 2 30
-/*
-node deletePtr(node root, int value){
 
-    node tempPtr = root;
-    node prev = root;
-
-    int i = 0;
-    if(root->left == NULL && root->right == NULL){
-        return NULL;
-    }
-    while(1){
-        if(tempPtr->value == value){
-            node deleteIt = tempPtr;
-            //printf("temp = %d\n",tempPtr->value);
-            //printf("prev = %d\n",prev->value);
-            if(deleteIt->left == NULL){
-                node run = deleteIt->right;
-                node previous = deleteIt->right;
-                int j = 0;
-                while(run->left != NULL){
-                    if(j != 0){
-                        previous = previous->left;
-                    }
-                    run = run->left;
-                    j++;
-                }
-                printf("run = %d, previous = %d, j = %d\n",run->value,previous->value,j);
-                previous->right = NULL;
-                tempPtr->value = run->value;
-                if(run->left == NULL && run->right == NULL && j == 0){
-                    deleteIt->right = NULL;
-                }else{
-                    run = deletePtr(run,run->value);
-
-                }
-
-                if(run != NULL && j == 1){
-                    run->right = NULL;
-                }else if(run == NULL || (run->left == NULL && run->right == NULL)){
-                    previous->left = NULL;
-                }
-                //free(run);
-                return root;
-            }else if(deleteIt->left != NULL){
-                node run = deleteIt->left;
-                node previous = deleteIt->left;
-                int j = 0;
-                while(run->right != NULL){
-                    if(j != 0){
-                        previous = previous->right;
-                    }
-                    run = run->right;
-                    j++;
-                }
-                printf("run = %d, previous = %d, j = %d\n",run->value,previous->value,j);
-                previous->right = NULL;
-                tempPtr->value = run->value;
-                if(run->left == NULL && run->right == NULL && j == 0){
-                    deleteIt->left = NULL;
-                }else{
-                    run = deletePtr(run,run->value);
-
-                }
-
-                if(run != NULL && j == 1){
-                    run->left = NULL;
-                }else if(run == NULL || (run->left == NULL && run->right == NULL)){
-                    previous->right = NULL;
-                }
-                //free(run);
-                return root;
-            }else if(deleteIt->left == NULL && root->right == NULL){
-                return NULL;
-            }
-            return root;
-        }else{
-            if(i != 0){
-                prev = tempPtr;
-            }
-            if(tempPtr->left == NULL && tempPtr->value > value){
-                return root;
-            }else if(tempPtr->right == NULL && tempPtr->value <= value){
-                return root;
-            }else if(tempPtr->value > value){
-                tempPtr = tempPtr->left;
-            }else if(tempPtr->value < value){
-                tempPtr = tempPtr->right;
-            }
-
-        }
-        i++;
-    }
-
-    return root;
-
-}
-*/
 
 node minValueNode(node Node)
 {
     node current = Node;
 
     /* loop down to find the leftmost leaf */
-    while (current && current->left != NULL)
-        current = current->left;
+    while (current && current->right != NULL)
+        current = current->right;
 
     return current;
 }
@@ -232,27 +143,29 @@ node deleteNode(node root, int key)
         // node with two children:
         // Get the inorder successor
         // (smallest in the right subtree)
-        node temp = minValueNode(root->right);
+        node temp = minValueNode(root->left);
 
         // Copy the inorder
         // successor's content to this node
         root->value = temp->value;
 
         // Delete the inorder successor
-        root->right = deleteNode(root->right, temp->value);
+        root->left = deleteNode(root->left, temp->value);
     }
     return root;
 }
 
-node itersearch(node root,int value){
+node itersearch(node root, int value) {
     node run = root;
-    if(run == NULL){
+    if (run == NULL) {
         return NULL;
-    }else{
-        while(run != NULL && run->value != value){
-            if(run->value > value){
+    }
+    else {
+        while (run != NULL && run->value != value) {
+            if (run->value > value) {
                 run = run->left;
-            }else if (run->value < value){
+            }
+            else if (run->value < value) {
                 run = run->right;
             }
         }
@@ -263,49 +176,95 @@ node itersearch(node root,int value){
     return NULL;
 }
 
-node search(node root,int value){
-    if(root == NULL){
+node search(node root, int value) {
+    if (root == NULL) {
         return NULL;
-    }else{
-        if(root->value > value){
+    }
+    else {
+        if (root->value > value) {
             root = root->left;
-        }else if (root->value < value){
+        }
+        else if (root->value < value) {
             root = root->right;
-        }else{
+        }
+        else {
             return root;
         }
-        return search(root,value);
+        return search(root, value);
     }
     return NULL;
+}
+
+struct myQueue {
+    node Node;
+    struct myQueue* next;
+};
+
+typedef struct myQueue* que;
+
+void printTree(node root) {
+    if (root == NULL) {
+        return;
+    }
+    que arr = malloc(sizeof(que));
+    arr->Node = root;
+    arr->next = NULL;
+    int count = 1;
+    que tail = arr;
+    while (count != 0 && arr != NULL) {
+        printf("%d ", arr->Node->value);
+        if (arr->Node->left != NULL) {
+            que nodePtr = malloc(sizeof(que));
+            nodePtr->next = NULL;
+            tail->next = nodePtr;
+            nodePtr->Node = arr->Node->left;
+            tail = tail->next;
+            
+        }
+        count++;
+        if (arr->Node->right != NULL) {
+            que nodePtrR = malloc(sizeof(que));
+            nodePtrR->next = NULL;
+            tail->next = nodePtrR;
+            nodePtrR->Node = arr->Node->right;
+            tail = tail->next;
+        }
+        count++;
+        arr = arr->next;
+        count--;
+    }
+    return;
 }
 
 int main()
 {
     node rootPtr = NULL;
 
-    while(1){
+    while (1) {
         int n = 0;
         int value = 0;
         printf("Input(1) or delete(2) or find(3)\n");
-        scanf("%d",&n);
-        if(n == 1){
+        scanf("%d", &n);
+        if (n == 1) {
             printf("What value?");
-            scanf("%d",&value);
-            rootPtr = insert(rootPtr,value);
-        }else if(n == 2){
+            scanf("%d", &value);
+            rootPtr = insert(rootPtr, value);
+        }
+        else if (n == 2) {
             printf("What value?");
-            scanf("%d",&value);
-            rootPtr = deleteNode(rootPtr,value);
-        }else if(n == 3){
+            scanf("%d", &value);
+            rootPtr = deleteNode(rootPtr, value);
+        }
+        else if (n == 3) {
             printf("What value?");
-            scanf("%d",&value);
-            node iter = itersearch(rootPtr,value);
-            if(iter){
-                printf("iter = %d,",iter->value);
+            scanf("%d", &value);
+            node iter = itersearch(rootPtr, value);
+            if (iter) {
+                printf("iter = %d,", iter->value);
             }
-            node recu = search(rootPtr,value);
-            if(recu){
-                printf(" recu = %d\n",recu->value);
+            node recu = search(rootPtr, value);
+            if (recu) {
+                printf(" recu = %d\n", recu->value);
             }
         }
         printf("inorder:");
@@ -317,6 +276,8 @@ int main()
         printf("postorder:");
         postorder(rootPtr);
         printf("\n");
+        printf("Tree:");
+        printTree(rootPtr);
         printf("\n");
 
     }
