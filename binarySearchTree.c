@@ -155,6 +155,98 @@ node deleteNode(node root, int key)
     return root;
 }
 
+node deleteIterative(node root, int key)
+{
+    node curr = root;
+    node prev = NULL;
+
+    // Check if the key is actually
+    // present in the BST.
+    // the variable prev points to
+    // the parent of the key to be deleted.
+    while (curr != NULL && curr->value != key) {
+        prev = curr;
+        if (key < curr->value)
+            curr = curr->left;
+        else
+            curr = curr->right;
+    }
+
+    if (curr == NULL) {
+        return root;
+    }
+
+    // Check if the node to be
+    // deleted has atmost one child.
+    if (curr->left == NULL || curr->right == NULL) {
+
+        // newCurr will replace
+        // the node to be deleted.
+        node newCurr;
+
+        // if the left child does not exist.
+        if (curr->right == NULL)
+            newCurr = curr->left;
+        else
+            newCurr = curr->right;
+
+        // check if the node to
+        // be deleted is the root.
+        if (prev == NULL)
+            return newCurr;
+
+        // check if the node to be deleted
+        // is prev's left or right child
+        // and then replace this with newCurr
+        if (curr == prev->right)
+            prev->right = newCurr;
+        else
+            prev->left = newCurr;
+
+        // free memory of the
+        // node to be deleted.
+        free(curr);
+    }
+
+    // node to be deleted has
+    // two children.
+    else {
+        node p = NULL;
+        node temp;
+
+        // Compute the inorder successor
+        temp = curr->left;
+        while (temp->right != NULL) {
+            p = temp;
+            temp = temp->right;
+        }
+
+        // check if the parent of the inorder
+        // successor is the curr or not(i.e. curr=
+        // the node which has the same data as
+        // the given data by the user to be
+        // deleted). if it isn't, then make the
+        // the left child of its parent equal to
+        // the inorder successor'd right child.
+        if (p != NULL)
+            p->right = temp->left;
+
+        // if the inorder successor was the
+        // curr (i.e. curr = the node which has the
+        // same data as the given data by the
+        // user to be deleted), then make the
+        // right child of the node to be
+        // deleted equal to the right child of
+        // the inorder successor.
+        else
+            curr->left = temp->left;
+
+        curr->value = temp->value;
+        free(temp);
+    }
+    return root;
+}
+
 node itersearch(node root, int value) {
     node run = root;
     if (run == NULL) {
@@ -211,6 +303,7 @@ void printTree(node root) {
     arr->next = NULL;
     int count = 1;
     que tail = arr;
+    que deletePtr = arr;
     while (count != 0 && arr != NULL) {
         printf("%d ", arr->Node->value);
         if (arr->Node->left != NULL) {
@@ -230,9 +323,20 @@ void printTree(node root) {
             tail = tail->next;
         }
         count++;
-        arr = arr->next;
+        que nextPtr = arr->next;
+        
+        //free(arr);
+        arr = nextPtr;
+        
         count--;
     }
+    /*
+    while (deletePtr != NULL) {
+        que* deleteNode = &deletePtr;
+        //printf("%d ",*deleteNode.Node.value);
+        deletePtr = deletePtr->next;
+        free(*deleteNode);
+    }*/
     return;
 }
 
@@ -253,7 +357,8 @@ int main()
         else if (n == 2) {
             printf("What value?");
             scanf("%d", &value);
-            rootPtr = deleteNode(rootPtr, value);
+            //rootPtr = deleteNode(rootPtr, value
+            rootPtr = deleteIterative(rootPtr, value);
         }
         else if (n == 3) {
             printf("What value?");
