@@ -25,8 +25,8 @@ void preorder(node root) {
     }
     else {
         printf("%d ", root->value);
-        inorder(root->left);
-        inorder(root->right);
+        preorder(root->left);
+        preorder(root->right);
     }
 }
 
@@ -35,8 +35,8 @@ void postorder(node root) {
         return;
     }
     else {
-        inorder(root->left);
-        inorder(root->right);
+        postorder(root->left);
+        postorder(root->right);
         printf("%d ", root->value);
     }
 }
